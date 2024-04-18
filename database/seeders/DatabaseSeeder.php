@@ -54,9 +54,9 @@ class DatabaseSeeder extends Seeder
         User('John', 'Doe', '1111111111', 'JohnDoe@gmail.com','Password', 1, 1);
         User('Jane', 'Doe', '1222222222', 'JaneDoe@gmail.com','Password', 1, 2);
         User('Jack', 'Doe', '1233333333', 'JackDoe@gmail.com', 'Password', 1, 3);
-        User('John', 'Smith', '1234444444', 'JohnSmith@gmail.com','Password', 1, 1);
-        User('Jane', 'Smith', '1234555555', 'JaneSmith@gmail.com','Password', 1, 2);
-        User('Jack', 'Smith', '1234566666', 'JackSmith@gmail.com', 'Password', 1, 3);
+        User('John', 'Smith', '1234444444', 'JohnSmith@gmail.com','Password', 2, 1);
+        User('Jane', 'Smith', '1234555555', 'JaneSmith@gmail.com','Password', 2, 2);
+        User('Jack', 'Smith', '1234566666', 'JackSmith@gmail.com', 'Password', 2, 3);
 
         function Category($name): void
         {
