@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,5 +17,19 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->renderable(function (NotFoundHttpException $e) {
+            return response()->json([
+                'message' => 'Record not found.'
+            ], 404);
+        });
+
+        $exceptions->renderable(function (QueryException $e) {
+            // If the data already exists return custom error message
+            if($e->getCode() === "23000"){
+                return response(['error' => 'Data already exists.'], 400);
+            }
+
+            // else return laravel error message
+            return response()->json($e);
+        });
     })->create();
