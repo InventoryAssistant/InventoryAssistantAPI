@@ -16,4 +16,6 @@ Route::resource('roles', RoleController::class)->only(['index', 'show', 'store',
 Route::resource('locations', LocationController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::resource('categories', CategoryController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::resource('products', ProductController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+Route::get('/products/location/{location}', [ProductController::class, 'getProductsByLocation']);
 Route::resource('users', UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);

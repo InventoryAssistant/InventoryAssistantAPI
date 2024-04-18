@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Location;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -69,5 +70,13 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(["User deleted"]);
+    }
+
+
+    /**
+     * Get all users with specified location
+     */
+    public function getUsersByLocation(Location $location){
+        return UserResource::collection(User::all()->where('location_id', $location->id));
     }
 }

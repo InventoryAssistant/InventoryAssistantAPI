@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\Location;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -69,5 +70,23 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->json(["Product deleted"]);
+    }
+
+    /**
+     * Get all products with specified location
+     */
+    public function getProductsByLocation(Location $location){
+
+        $products = Product::with(['location_products' => function($query) use ($location){
+            return $query->where('location_id', $location->id);
+        }])->get();
+
+        /*
+        $products = Product::whereHas('location_products', function($query) use ($location) {
+            $query->where('location_id', $location->id)->first();
+        })->get();
+        */
+
+        return ProductResource::collection($products);
     }
 }
