@@ -81,12 +81,6 @@ class ProductController extends Controller
             return $query->where('location_id', $location->id);
         }])->get();
 
-        /*
-        $products = Product::whereHas('location_products', function($query) use ($location) {
-            $query->where('location_id', $location->id)->first();
-        })->get();
-        */
-
         return ProductResource::collection($products);
     }
 }
