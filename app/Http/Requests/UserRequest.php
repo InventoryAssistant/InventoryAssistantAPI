@@ -45,7 +45,7 @@ class UserRequest extends FormRequest
      *
      * @return string[]
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'first_name.required' => 'Please enter a first name',

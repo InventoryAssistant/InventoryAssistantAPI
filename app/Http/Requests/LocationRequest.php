@@ -36,7 +36,7 @@ class LocationRequest extends FormRequest
      *
      * @return string[]
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'address.required' => 'Please enter an address',

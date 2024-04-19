@@ -36,7 +36,7 @@ class RoleRequest extends FormRequest
      *
      * @return string[]
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.required' => 'Please enter a name',
