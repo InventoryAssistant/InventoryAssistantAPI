@@ -11,14 +11,18 @@ class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return RoleResource::collection(Role::all());
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return void
      */
     public function create()
     {
@@ -27,8 +31,11 @@ class RoleController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param RoleRequest $request
+     * @return RoleResource
      */
-    public function store(RoleRequest $request)
+    public function store(RoleRequest $request): RoleResource
     {
         $category = Role::create($request->all());
 
@@ -37,14 +44,20 @@ class RoleController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Role $role
+     * @return RoleResource
      */
-    public function show(Role $role)
+    public function show(Role $role): RoleResource
     {
         return new RoleResource($role);
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param string $id
+     * @return void
      */
     public function edit(string $id)
     {
@@ -53,8 +66,12 @@ class RoleController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param RoleRequest $request
+     * @param Role $role
+     * @return RoleResource
      */
-    public function update(RoleRequest $request, Role $role)
+    public function update(RoleRequest $request, Role $role): RoleResource
     {
         $role->update($request->all());
 
@@ -63,8 +80,11 @@ class RoleController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Role $role
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Role $role)
+    public function destroy(Role $role): \Illuminate\Http\JsonResponse
     {
         $role->delete();
 

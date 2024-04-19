@@ -11,14 +11,18 @@ class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return CategoryResource::collection(Category::all());
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return void
      */
     public function create()
     {
@@ -27,8 +31,11 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param CategoryRequest $request
+     * @return CategoryResource
      */
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request): CategoryResource
     {
         $category = Category::create($request->all());
 
@@ -37,14 +44,20 @@ class CategoryController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Category $category
+     * @return CategoryResource
      */
-    public function show(Category $category)
+    public function show(Category $category): CategoryResource
     {
         return new CategoryResource($category);
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param string $id
+     * @return void
      */
     public function edit(string $id)
     {
@@ -53,8 +66,12 @@ class CategoryController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param CategoryRequest $request
+     * @param Category $category
+     * @return CategoryResource
      */
-    public function update(CategoryRequest $request, Category $category)
+    public function update(CategoryRequest $request, Category $category): CategoryResource
     {
         $category->update($request->all());
 
@@ -63,8 +80,11 @@ class CategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Category $category
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): \Illuminate\Http\JsonResponse
     {
         $category->delete();
 

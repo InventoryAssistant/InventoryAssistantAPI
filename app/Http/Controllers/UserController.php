@@ -12,14 +12,18 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return UserResource::collection(User::all());
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return void
      */
     public function create()
     {
@@ -28,6 +32,9 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param UserRequest $request
+     * @return UserResource
      */
     public function store(UserRequest $request)
     {
@@ -38,14 +45,20 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param User $user
+     * @return UserResource
      */
-    public function show(User $user)
+    public function show(User $user): UserResource
     {
         return new UserResource($user);
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param string $id
+     * @return void
      */
     public function edit(string $id)
     {
@@ -54,8 +67,12 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param UserRequest $request
+     * @param User $user
+     * @return UserResource
      */
-    public function update(UserRequest $request, User $user)
+    public function update(UserRequest $request, User $user): UserResource
     {
         $user->update($request->all());
 
@@ -64,8 +81,11 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $user): \Illuminate\Http\JsonResponse
     {
         $user->delete();
 
@@ -75,8 +95,12 @@ class UserController extends Controller
 
     /**
      * Get all users with specified location
+     *
+     * @param Location $location
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getUsersByLocation(Location $location){
+    public function getUsersByLocation(Location $location): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
         return UserResource::collection(User::all()->where('location_id', $location->id));
     }
 }

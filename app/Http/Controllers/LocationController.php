@@ -11,14 +11,18 @@ class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return LocationResource::collection(Location::all());
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return void
      */
     public function create()
     {
@@ -27,8 +31,11 @@ class LocationController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param LocationRequest $request
+     * @return LocationResource
      */
-    public function store(LocationRequest $request)
+    public function store(LocationRequest $request): LocationResource
     {
         $location = Location::create($request->all());
 
@@ -37,14 +44,20 @@ class LocationController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Location $location
+     * @return LocationResource
      */
-    public function show(Location $location)
+    public function show(Location $location): LocationResource
     {
         return new LocationResource($location);
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param string $id
+     * @return void
      */
     public function edit(string $id)
     {
@@ -53,8 +66,12 @@ class LocationController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param LocationRequest $request
+     * @param Location $location
+     * @return LocationResource
      */
-    public function update(LocationRequest $request, Location $location)
+    public function update(LocationRequest $request, Location $location): LocationResource
     {
         $location->update($request->all());
 
@@ -63,8 +80,11 @@ class LocationController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Location $location
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Location $location)
+    public function destroy(Location $location): \Illuminate\Http\JsonResponse
     {
         $location->delete();
 
