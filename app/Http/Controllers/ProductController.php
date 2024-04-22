@@ -6,7 +6,8 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Location;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use \Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
@@ -83,9 +84,9 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy(Product $product): \Illuminate\Http\JsonResponse
+    public function destroy(Product $product): JsonResponse
     {
         $product->delete();
 
@@ -101,10 +102,44 @@ class ProductController extends Controller
     public function getProductsByLocation(Location $location): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
 
-        $products = Product::with(['location_products' => function($query) use ($location){
+        $products = Product::with(['location_products' => function ($query) use ($location) {
             return $query->where('location_id', $location->id);
         }])->get();
 
         return ProductResource::collection($products);
+    }
+
+    /**
+     * Search products by barcode.
+     * @param string $barcode
+     *
+     * @return JsonResponse | ProductResource
+     */
+    public function barcodeSearch(Int $barcode): JsonResponse | ProductResource
+    {
+        // Salling API Bearer token
+        $sallingToken = 'a5414649-0e40-4b8b-a489-d3c7adf1f8c7';
+
+        // Salling API store id (Bilka -Odense)
+        $storeId = 'f897964d-2890-49bb-90f6-86f12b11afe6';
+
+        // Get products from Salling API
+        $response = Http::withToken($sallingToken)->get('https://api.sallinggroup.com/v2/products/' . $barcode . '?storeId=' . $storeId);
+        if ($response) {
+            $data = $response->json();
+            if ($data['instore']) {
+                return $data;
+            }
+        } else {
+            // If Salling dont have the product, search in our database
+            $product = Product::where('barcode', $barcode)->first();
+            if ($product) {
+                // Return the product
+                return new ProductResource($product);
+            }
+        }
+
+        // Return error message if product not found
+        return response()->json(['message' => 'Product not found'], 404);
     }
 }
