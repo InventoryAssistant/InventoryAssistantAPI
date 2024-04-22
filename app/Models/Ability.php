@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Ability extends Model
 {
     use HasFactory;
 
@@ -19,18 +19,10 @@ class Role extends Model
     ];
 
     /**
-     * Get the users the role has
-     */
-    public function users()
-    {
-        return $this->hasMany(User::class, 'role_id', 'id');
-    }
-
-    /**
-     * Get the abilities that the role has through role_abilities
+     * Get the roles that the ability has through role_abilities
      */
     public function role_abilities()
     {
-        return $this->belongsToMany(Ability::class);
+        return $this->belongsToMany(Role::class);
     }
 }

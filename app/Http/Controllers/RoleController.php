@@ -37,9 +37,11 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request): RoleResource
     {
-        $category = Role::create($request->all());
+        $role = Role::create($request->all());
 
-        return new RoleResource($category);
+        Role::find($role->id)->role_abilities()->sync($request['abilities']);
+
+        return new RoleResource($role);
     }
 
     /**
@@ -74,6 +76,8 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role): RoleResource
     {
         $role->update($request->all());
+
+        Role::find($role->id)->role_abilities()->sync($request['abilities']);
 
         return new RoleResource($role);
     }
