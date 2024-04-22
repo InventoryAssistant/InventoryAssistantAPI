@@ -117,6 +117,13 @@ class ProductController extends Controller
      */
     public function barcodeSearch(Int $barcode): JsonResponse | ProductResource
     {
+        // Check if product exists in database
+        $product = Product::where('barcode', $barcode)->first();
+        if ($product) {
+            // Return the product
+            return new ProductResource($product);
+        }
+
         // Salling API Bearer token
         $sallingToken = 'a5414649-0e40-4b8b-a489-d3c7adf1f8c7';
 
@@ -129,13 +136,6 @@ class ProductController extends Controller
             $data = $response->json();
             if (isset($data['instore'])) {
                 return response()->json($data);
-            }
-        } else {
-            // If Salling dont have the product, search in our database
-            $product = Product::where('barcode', $barcode)->first();
-            if ($product) {
-                // Return the product
-                return new ProductResource($product);
             }
         }
 
