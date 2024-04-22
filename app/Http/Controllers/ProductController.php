@@ -127,8 +127,8 @@ class ProductController extends Controller
         $response = Http::withToken($sallingToken)->get('https://api.sallinggroup.com/v2/products/' . $barcode . '?storeId=' . $storeId);
         if ($response) {
             $data = $response->json();
-            if ($data['instore']) {
-                return $data;
+            if (isset($data['instore'])) {
+                return response()->json($data);
             }
         } else {
             // If Salling dont have the product, search in our database
