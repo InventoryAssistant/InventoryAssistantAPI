@@ -40,7 +40,7 @@ class UserController extends Controller
      * @param UserRequest $request
      * @return UserResource
      */
-    public function store(UserRequest $request)
+    public function store(UserRequest $request): UserResource
     {
         $user = User::create($request->all());
 
@@ -166,7 +166,7 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function logout()
+    public function logout(): void
     {
         if (auth('sanctum')->check()) {
             auth('sanctum')->user()->tokens()->delete();
@@ -180,7 +180,7 @@ class UserController extends Controller
      * @param $ability
      * @return JsonResponse
      */
-    public function checkAbility($ability) // TODO: RETURNS RECORD NOT FOUND
+    public function checkAbility($ability): JsonResponse
     {
         if (auth('sanctum')->check()) {
             //return $request->user('sanctum')->currentAccessToken()->tokenCan($ability);
