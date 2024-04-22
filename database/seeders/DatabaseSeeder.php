@@ -29,10 +29,9 @@ class DatabaseSeeder extends Seeder
         Ability('password reset');
         Ability('create');
         Ability('read');
-        Ability('read user');
         Ability('update');
-        Ability('update user');
         Ability('destroy');
+        Ability('crud auth');
 
         function Role($name): void
         {
@@ -46,8 +45,8 @@ class DatabaseSeeder extends Seeder
         Role("admin");
 
         Role::find(1)->role_abilities()->sync([1, 2]);
-        Role::find(2)->role_abilities()->sync([1, 2, 3, 4, 6, 8]);
-        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7, 8]);
+        Role::find(2)->role_abilities()->sync([1, 2, 3, 4, 5, 6]);
+        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7]);
 
         function Location($address): void
         {

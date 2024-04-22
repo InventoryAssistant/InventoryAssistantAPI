@@ -14,20 +14,9 @@ Route::get('/user', function (Request $request) {
 
 /* Create */
 Route::group(['middleware' => ['auth:sanctum', 'ability:create']], function () {
-    Route::post('/users', [UserController::class, 'store']);
-    Route::post('/roles', [RoleController::class, 'store']);
     Route::post('/products', [ProductController::class, 'store']);
     Route::post('/locations', [LocationController::class, 'store']);
     Route::post('/categories', [CategoryController::class, 'store']);
-});
-
-/* Read User - Get */
-Route::group(['middleware' => ['auth:sanctum', 'ability:read user']], function () {
-    Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users/{user}', [UserController::class, 'show']);
-    Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);
-    Route::get('/roles', [RoleController::class, 'index']);
-    Route::get('/roles/{role}', [RoleController::class, 'show']);
 });
 
 /* Update */
@@ -37,19 +26,30 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:update']], function () {
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
 });
 
-/* Update User */
-Route::group(['middleware' => ['auth:sanctum', 'ability:update user']], function () {
-    Route::put('/users/{user}', [UserController::class, 'update']);
-    Route::put('/roles/{role}', [RoleController::class, 'update']);
-});
-
 /* Destroy */
 Route::group(['middleware' => ['auth:sanctum', 'ability:destroy']], function () {
-    Route::delete('/users/{user}', [UserController::class, 'destroy']);
-    Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     Route::delete('/locations/{location}', [LocationController::class, 'destroy']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+});
+
+/* CRUD AUTH */
+Route::group(['middleware' => ['auth:sanctum', 'ability:crud auth']], function () {
+    /* Create */
+    Route::post('/users', [UserController::class, 'store']);
+    Route::post('/roles', [RoleController::class, 'store']);
+    /* Get */
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);
+    Route::get('/roles', [RoleController::class, 'index']);
+    Route::get('/roles/{role}', [RoleController::class, 'show']);
+    /* Update */
+    Route::put('/users/{user}', [UserController::class, 'update']);
+    Route::put('/roles/{role}', [RoleController::class, 'update']);
+    /* Destroy */
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
+    Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
 });
 
 /* Unprotected Routes */
