@@ -33,24 +33,34 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:destroy']], function () 
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 });
 
-/* CRUD AUTH */
-Route::group(['middleware' => ['auth:sanctum', 'ability:crud auth']], function () {
-    /* Create */
+/* CRUD Roles & Users */
+/* Create */
+Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::post('/roles', [RoleController::class, 'store']);
-    /* Get */
+});
+
+/* Read - Get */
+Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);
     Route::get('/roles', [RoleController::class, 'index']);
     Route::get('/roles/{role}', [RoleController::class, 'show']);
-    /* Update */
+});
+
+/* Update */
+Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::put('/roles/{role}', [RoleController::class, 'update']);
-    /* Destroy */
+});
+
+/* Destroy */
+Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
     Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
 });
+
 
 /* Unprotected Routes */
 

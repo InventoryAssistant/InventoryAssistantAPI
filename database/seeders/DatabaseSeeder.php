@@ -31,7 +31,11 @@ class DatabaseSeeder extends Seeder
         Ability('read');
         Ability('update');
         Ability('destroy');
-        Ability('crud auth');
+        Ability('create roles and users');
+        Ability('read roles and users');
+        Ability('update roles and users');
+        Ability('destroy roles and users');
+
 
         function Role($name): void
         {
@@ -46,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
         Role::find(1)->role_abilities()->sync([1, 2]);
         Role::find(2)->role_abilities()->sync([1, 2, 3, 4, 5, 6]);
-        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7]);
+        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
         function Location($address): void
         {
