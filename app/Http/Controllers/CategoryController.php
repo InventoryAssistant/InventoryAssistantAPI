@@ -6,15 +6,16 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         return CategoryResource::collection(Category::all());
     }
@@ -89,5 +90,18 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->json(["Category deleted"]);
+    }
+
+    /**
+     * Searches for a category by name.
+     *
+     * @param string $name
+     * @return AnonymousResourceCollection
+     */
+    public function search(string $name): AnonymousResourceCollection
+    {
+        $category = Category::search($name)->get();
+
+        return CategoryResource::collection($category);
     }
 }
