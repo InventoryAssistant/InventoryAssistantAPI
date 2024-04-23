@@ -65,15 +65,14 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']
 /* Unprotected Routes */
 
 /* Read - Get */
-Route::group(['middleware' => ['api']], function () {
-    Route::get('/locations', [LocationController::class, 'index']);
-    Route::get('/locations/{location}', [LocationController::class, 'show']);
-    Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{category}', [CategoryController::class, 'show']);
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{product}', [ProductController::class, 'show']);
-    Route::get('/products/location/{location}', [ProductController::class, 'getProductsByLocation']);
-});
+Route::get('/locations', [LocationController::class, 'index']);
+Route::get('/locations/{location}', [LocationController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{category}', [CategoryController::class, 'show']);
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{product}', [ProductController::class, 'show']);
+Route::get('/products/location/{location}', [ProductController::class, 'getProductsByLocation']);
+
 
 /* Search */
 
