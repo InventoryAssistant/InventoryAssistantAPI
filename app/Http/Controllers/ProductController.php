@@ -115,9 +115,9 @@ class ProductController extends Controller
      * @param string $search
      * @return AnonymousResourceCollection
      */
-    public function search(string $search): AnonymousResourceCollection
+    public function quickSearch(string $search): AnonymousResourceCollection
     {
-        $product = Product::search($search)->get();
+        $product = Product::search($search)->take(10)->get();
 
         return ProductResource::collection($product);
     }

@@ -98,9 +98,9 @@ class LocationController extends Controller
      * @param string $name
      * @return AnonymousResourceCollection
      */
-    public function search(string $name): AnonymousResourceCollection
+    public function quickSearch(string $name): AnonymousResourceCollection
     {
-        $location = Location::search($name)->get();
+        $location = Location::search($name)->take(10)->get();
 
         return LocationResource::collection($location);
     }

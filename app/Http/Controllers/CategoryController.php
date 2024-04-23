@@ -98,9 +98,9 @@ class CategoryController extends Controller
      * @param string $name
      * @return AnonymousResourceCollection
      */
-    public function search(string $name): AnonymousResourceCollection
+    public function quickSearch(string $name): AnonymousResourceCollection
     {
-        $category = Category::search($name)->get();
+        $category = Category::search($name)->take(10)->get();
 
         return CategoryResource::collection($category);
     }

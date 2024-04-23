@@ -20,6 +20,6 @@ Route::get('/products/location/{location}', [ProductController::class, 'getProdu
 Route::resource('users', UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);
 
-Route::get('/categories/search/{name}', [CategoryController::class, 'search']);
-Route::get('/locations/search/{name}', [LocationController::class, 'search']);
-Route::get('/products/search/{name}', [ProductController::class, 'search']);
+Route::get('/categories/search/{name}', [CategoryController::class, 'quickSearch']);
+Route::get('/locations/search/{name}', [LocationController::class, 'quickSearch']);
+Route::get('/products/search/{name}', [ProductController::class, 'quickSearch']);
