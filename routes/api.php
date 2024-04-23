@@ -21,3 +21,4 @@ Route::resource('users', UserController::class)->only(['index', 'show', 'store',
 Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);
 
 Route::get('/categories/search/{name}', [CategoryController::class, 'search']);
+Route::get('/locations/search/{name}', [LocationController::class, 'search']);
