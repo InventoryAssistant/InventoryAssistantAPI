@@ -22,3 +22,4 @@ Route::get('/users/location/{location}', [UserController::class, 'getUsersByLoca
 
 Route::get('/categories/search/{name}', [CategoryController::class, 'search']);
 Route::get('/locations/search/{name}', [LocationController::class, 'search']);
+Route::get('/products/search/{name}', [ProductController::class, 'search']);

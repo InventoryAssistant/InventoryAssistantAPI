@@ -6,16 +6,17 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Location;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         return ProductResource::collection(Product::all());
     }
@@ -83,9 +84,9 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy(Product $product): \Illuminate\Http\JsonResponse
+    public function destroy(Product $product): JsonResponse
     {
         $product->delete();
 
@@ -96,15 +97,28 @@ class ProductController extends Controller
      * Get all products with specified location.
      *
      * @param Location $location
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getProductsByLocation(Location $location): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getProductsByLocation(Location $location): AnonymousResourceCollection
     {
 
-        $products = Product::with(['location_products' => function($query) use ($location){
+        $products = Product::with(['location_products' => function ($query) use ($location) {
             return $query->where('location_id', $location->id);
         }])->get();
 
         return ProductResource::collection($products);
+    }
+
+    /**
+     * Search product by name or barcode.
+     *
+     * @param string $search
+     * @return AnonymousResourceCollection
+     */
+    public function search(string $search): AnonymousResourceCollection
+    {
+        $product = Product::search($search)->get();
+
+        return ProductResource::collection($product);
     }
 }
