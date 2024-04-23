@@ -182,15 +182,18 @@ class UserController extends Controller
      */
     public function checkAbility($ability): JsonResponse
     {
+        // Check if a user is logged in
         if (auth('sanctum')->check()) {
-            //return $request->user('sanctum')->currentAccessToken()->tokenCan($ability);
-
+            // Get the user
             $user = auth('sanctum')->user();
+
+            // Get the first of the users tokens
             $token = $user->tokens()->first();
+
+            // Get the abilities of the token
             $abilities = $token->abilities;
 
-            // return $ability;
-            // return $abilities;
+            // Check if the requested ability is in the tokens abilities
             if (in_array($ability, $abilities)) {
                 return response()->json([
                     'has_ability' => true
