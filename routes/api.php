@@ -73,12 +73,11 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/products/location/{location}', [ProductController::class, 'getProductsByLocation']);
 
-
 /* Search */
+Route::get('/products/barcode/{barcode}', [ProductController::class, 'barcodeSearch']);
 
 /* Authorization & Authentication */
 Route::post('/auth/login', [UserController::class, 'login'])->name('login');
 Route::post('/auth/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/auth/register', [UserController::class, 'register'])->name('register');
 Route::get('/auth/ability/{ability}', [UserController::class, 'checkAbility'])->name('ability');
-
