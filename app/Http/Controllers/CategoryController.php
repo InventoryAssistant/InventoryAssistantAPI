@@ -96,11 +96,12 @@ class CategoryController extends Controller
      * Searches for a category by name.
      *
      * @param string $name
+     * @param int $paginate
      * @return AnonymousResourceCollection
      */
-    public function quickSearch(string $name): AnonymousResourceCollection
+    function search(string $name, int $paginate = 10): AnonymousResourceCollection
     {
-        $category = Category::search($name)->take(10)->get();
+        $category = Category::search($name)->paginate($paginate);
 
         return CategoryResource::collection($category);
     }

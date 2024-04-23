@@ -96,11 +96,12 @@ class LocationController extends Controller
      * Search location by name.
      *
      * @param string $name
+     * @param int $paginate
      * @return AnonymousResourceCollection
      */
-    public function quickSearch(string $name): AnonymousResourceCollection
+    public function search(string $name, int $paginate = 10): AnonymousResourceCollection
     {
-        $location = Location::search($name)->take(10)->get();
+        $location = Location::search($name)->paginate($paginate);
 
         return LocationResource::collection($location);
     }

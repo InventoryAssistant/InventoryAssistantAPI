@@ -147,11 +147,12 @@ class ProductController extends Controller
      * Search product by name or barcode.
      *
      * @param string $search
+     * @param int $paginate
      * @return AnonymousResourceCollection
      */
-    public function quickSearch(string $search): AnonymousResourceCollection
+    public function search(string $search, int $paginate = 10): AnonymousResourceCollection
     {
-        $product = Product::search($search)->take(10)->get();
+        $product = Product::search($search)->paginate($paginate);
 
         return ProductResource::collection($product);
     }

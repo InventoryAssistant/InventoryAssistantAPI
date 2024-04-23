@@ -75,9 +75,9 @@ Route::get('/products/location/{location}', [ProductController::class, 'getProdu
 
 /* Search */
 Route::get('/products/barcode/{barcode}', [ProductController::class, 'barcodeSearch']);
-Route::get('/categories/search/{name}', [CategoryController::class, 'quickSearch']);
-Route::get('/locations/search/{name}', [LocationController::class, 'quickSearch']);
-Route::get('/products/search/{name}', [ProductController::class, 'quickSearch']);
+Route::get('/categories/search/{name}', [CategoryController::class, 'search']);
+Route::get('/locations/search/{name}', [LocationController::class, 'search']);
+Route::get('/products/search/{name}', [ProductController::class, 'search']);
 
 /* Authorization & Authentication */
 Route::post('/auth/login', [UserController::class, 'login'])->name('login');
