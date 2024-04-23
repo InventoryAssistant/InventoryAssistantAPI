@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +18,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        function Ability($name): void
+        {
+            $Model = new \App\Models\Ability();
+            $Model->name = $name;
+            $Model->save();
+        }
+
+        Ability('change email');
+        Ability('password reset');
+        Ability('create');
+        Ability('read');
+        Ability('update');
+        Ability('destroy');
+        Ability('create roles and users');
+        Ability('read roles and users');
+        Ability('update roles and users');
+        Ability('destroy roles and users');
+
+
         function Role($name): void
         {
             $Model = new \App\Models\Role();
@@ -26,6 +47,10 @@ class DatabaseSeeder extends Seeder
         Role("user");
         Role("moderator");
         Role("admin");
+
+        Role::find(1)->role_abilities()->sync([1, 2]);
+        Role::find(2)->role_abilities()->sync([1, 2, 3, 4, 5, 6]);
+        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
         function Location($address): void
         {
@@ -51,11 +76,11 @@ class DatabaseSeeder extends Seeder
             $Model->save();
         }
 
-        User('John', 'Doe', '1111111111', 'JohnDoe@gmail.com','Password', 1, 1);
-        User('Jane', 'Doe', '1222222222', 'JaneDoe@gmail.com','Password', 1, 2);
+        User('John', 'Doe', '1111111111', 'JohnDoe@gmail.com', 'Password', 1, 1);
+        User('Jane', 'Doe', '1222222222', 'JaneDoe@gmail.com', 'Password', 1, 2);
         User('Jack', 'Doe', '1233333333', 'JackDoe@gmail.com', 'Password', 1, 3);
-        User('John', 'Smith', '1234444444', 'JohnSmith@gmail.com','Password', 2, 1);
-        User('Jane', 'Smith', '1234555555', 'JaneSmith@gmail.com','Password', 2, 2);
+        User('John', 'Smith', '1234444444', 'JohnSmith@gmail.com', 'Password', 2, 1);
+        User('Jane', 'Smith', '1234555555', 'JaneSmith@gmail.com', 'Password', 2, 2);
         User('Jack', 'Smith', '1234566666', 'JackSmith@gmail.com', 'Password', 2, 3);
 
         function Category($name): void

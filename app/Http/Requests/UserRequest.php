@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
                 'unique' => Rule::unique('users', 'email')->ignore(request('user') , 'email')
             ],
             'location_id' => 'required|integer|exists:locations,id',
-            'role_id' => 'required|integer|exists:roles,id'
+            'role_id' => 'integer|exists:roles,id'
         ];
     }
 
