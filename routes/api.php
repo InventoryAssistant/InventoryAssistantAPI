@@ -19,3 +19,4 @@ Route::resource('products', ProductController::class)->only(['index', 'show', 's
 Route::get('/products/location/{location}', [ProductController::class, 'getProductsByLocation']);
 Route::resource('users', UserController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);
+Route::get('/products/barcode/{barcode}', [ProductController::class, 'barcodeSearch']);
