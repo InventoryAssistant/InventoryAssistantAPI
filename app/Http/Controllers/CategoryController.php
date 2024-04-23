@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         return CategoryResource::collection(Category::all());
     }
@@ -82,12 +83,26 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Category $category
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy(Category $category): \Illuminate\Http\JsonResponse
+    public function destroy(Category $category): JsonResponse
     {
         $category->delete();
 
         return response()->json(["Category deleted"]);
+    }
+
+    /**
+     * Searches for a category by name.
+     *
+     * @param string $name
+     * @param int $paginate
+     * @return AnonymousResourceCollection
+     */
+    function search(string $name, int $paginate = 10): AnonymousResourceCollection
+    {
+        $category = Category::search($name)->paginate($paginate);
+
+        return CategoryResource::collection($category);
     }
 }

@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LocationRequest;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         return LocationResource::collection(Location::all());
     }
@@ -82,12 +83,26 @@ class LocationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Location $location
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy(Location $location): \Illuminate\Http\JsonResponse
+    public function destroy(Location $location): JsonResponse
     {
         $location->delete();
 
         return response()->json(["Location deleted"]);
+    }
+
+    /**
+     * Search location by name.
+     *
+     * @param string $name
+     * @param int $paginate
+     * @return AnonymousResourceCollection
+     */
+    public function search(string $name, int $paginate = 10): AnonymousResourceCollection
+    {
+        $location = Location::search($name)->paginate($paginate);
+
+        return LocationResource::collection($location);
     }
 }

@@ -8,15 +8,16 @@ use App\Models\Location;
 use App\Models\Product;
 use Illuminate\Support\Facades\Http;
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         return ProductResource::collection(Product::all());
     }
@@ -97,9 +98,9 @@ class ProductController extends Controller
      * Get all products with specified location.
      *
      * @param Location $location
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getProductsByLocation(Location $location): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getProductsByLocation(Location $location): AnonymousResourceCollection
     {
 
         $products = Product::with(['location_products' => function ($query) use ($location) {
@@ -108,7 +109,6 @@ class ProductController extends Controller
 
         return ProductResource::collection($products);
     }
-
     /**
      * Search products by barcode.
      * @param string $barcode
@@ -141,5 +141,19 @@ class ProductController extends Controller
 
         // Return error message if product not found
         return response()->json(['message' => 'Product not found'], 404);
+    }
+
+    /**
+     * Search product by name or barcode.
+     *
+     * @param string $search
+     * @param int $paginate
+     * @return AnonymousResourceCollection
+     */
+    public function search(string $search, int $paginate = 10): AnonymousResourceCollection
+    {
+        $product = Product::search($search)->paginate($paginate);
+
+        return ProductResource::collection($product);
     }
 }
