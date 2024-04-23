@@ -27,7 +27,9 @@ class RoleRequest extends FormRequest
                 'required',
                 'max:255',
                 'unique' => Rule::unique('roles', 'name')->ignore(request('role') , 'name')
-            ]
+            ],
+            'abilities' => 'required|array|max:255',
+            'abilities.*' => 'required|integer|exists:abilities,id'
         ];
     }
 
@@ -41,7 +43,13 @@ class RoleRequest extends FormRequest
         return [
             'name.required' => 'Please enter a name',
             'name.unique' => 'Please enter a unique name',
-            'name.max' => 'Please enter a name with less than 255 characters'
+            'name.max' => 'Please enter a name with less than 255 characters',
+            'abilities.required' => 'Please enter roles abilities',
+            'abilities.array' => 'Please enter abilities as an array',
+            'abilities.max' => 'Please limit abilities to 255 characters',
+            'abilities.*.required' => 'Please enter ability id',
+            'abilities.*.integer' => 'Please enter ability id as an integer',
+            'abilities.*.exists' => 'Please enter an ability id that exists'
         ];
     }
 }
