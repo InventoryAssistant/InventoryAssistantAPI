@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\TokenEnum;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
@@ -25,17 +26,10 @@ class DatabaseSeeder extends Seeder
             $Model->save();
         }
 
-        Ability('change email');
-        Ability('password reset');
-        Ability('create');
-        Ability('read');
-        Ability('update');
-        Ability('destroy');
-        Ability('create roles and users');
-        Ability('read roles and users');
-        Ability('update roles and users');
-        Ability('destroy roles and users');
-
+        $ablities = TokenEnum::cases();
+        foreach ($ablities as $ability) {
+            Ability($ability->value);
+        }
 
         function Role($name): void
         {

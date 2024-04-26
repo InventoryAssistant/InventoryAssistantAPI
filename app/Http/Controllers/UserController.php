@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TokenEnum;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Location;
@@ -137,7 +138,7 @@ class UserController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        if (!\Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Login information is invalid.'
             ], 401);
@@ -146,17 +147,29 @@ class UserController extends Controller
         // get user
         $user = User::where('email', $request['email'])->firstOrFail();
 
-        // get current time and add an hour
-        $expirationsDate = Carbon::now()->addHour();
-
-        // create abilities based on user role
-        $abilities = $user->role->role_abilities->pluck('name')->toArray();
-
-        // create token with the given abilities
-        $token = $user->createToken('authToken', $abilities, $expirationsDate)->plainTextToken;
+        $token = SELF::createToken($user);
 
         return response()->json([
-            'access_token' => $token,
+            'refresh_token' => $token['refresh_token'],
+            'access_token' => $token['access_token'],
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    /**
+     * Refresh user token
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function refresh(Request $request): JsonResponse
+    {
+        // refresh the users bearer token
+        $user = auth('sanctum')->user();
+        $token = SELF::createToken($user, true);
+
+        return response()->json([
+            'refresh_token' => $token['refresh_token'],
+            'access_token' => $token['access_token'],
             'token_type' => 'Bearer',
         ]);
     }
@@ -171,6 +184,36 @@ class UserController extends Controller
         if (auth('sanctum')->check()) {
             auth('sanctum')->user()->tokens()->delete();
         }
+    }
+
+    /**
+     * Create token for user
+     *
+     * @param User $user
+     * @param bool $refresh
+     * @return array
+     */
+    private function createToken(User $user, bool $refresh = false): array
+    {
+        // get current time and add an hour
+        $expirationsDate = Carbon::now()->addHour();
+
+        // create abilities based on user role
+        $abilities = $user->role->role_abilities->pluck('name')->toArray();
+
+        // create token with the given abilities
+        $token = $user->createToken('authToken', $abilities, $expirationsDate)->plainTextToken;
+
+        if (!$refresh) {
+            $refreshToken = $user->createToken('refresh_token',  [TokenEnum::ISSUE_TOKENS->value], $expirationsDate->addDays(7))->plainTextToken;
+        } else {
+            $refreshToken = $user->tokens()->where('name', 'refresh_token')->first()->token;
+        }
+
+        return [
+            'access_token' => $token,
+            'refresh_token' => $refreshToken
+        ];
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TokenEnum;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductController;
@@ -13,21 +14,21 @@ Route::get('/user', function (Request $request) {
 });
 
 /* Create */
-Route::group(['middleware' => ['auth:sanctum', 'ability:create']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::CREATE->value]], function () {
     Route::post('/products', [ProductController::class, 'store']);
     Route::post('/locations', [LocationController::class, 'store']);
     Route::post('/categories', [CategoryController::class, 'store']);
 });
 
 /* Update */
-Route::group(['middleware' => ['auth:sanctum', 'ability:update']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::UPDATE->value]], function () {
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::put('/locations/{location}', [LocationController::class, 'update']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
 });
 
 /* Destroy */
-Route::group(['middleware' => ['auth:sanctum', 'ability:destroy']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::DESTROY->value]], function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     Route::delete('/locations/{location}', [LocationController::class, 'destroy']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
@@ -35,13 +36,13 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:destroy']], function () 
 
 /* CRUD Roles & Users */
 /* Create */
-Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::CREATE_ROLES_AND_USERS->value]], function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::post('/roles', [RoleController::class, 'store']);
 });
 
 /* Read - Get */
-Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::CREATE_ROLES_AND_USERS->value]], function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::get('/users/location/{location}', [UserController::class, 'getUsersByLocation']);
@@ -50,15 +51,20 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']
 });
 
 /* Update */
-Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::CREATE_ROLES_AND_USERS->value]], function () {
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::put('/roles/{role}', [RoleController::class, 'update']);
 });
 
 /* Destroy */
-Route::group(['middleware' => ['auth:sanctum', 'ability:create roles and users']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::CREATE_ROLES_AND_USERS->value]], function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
     Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
+});
+
+/* Refresh token */
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::ISSUE_TOKENS->value]], function () {
+    Route::post('/auth/refresh', [UserController::class, 'refresh']);
 });
 
 
