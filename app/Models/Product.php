@@ -19,7 +19,9 @@ class Product extends Model
     protected $fillable = [
         'name',
         'barcode',
-        'category_id'
+        'category_id',
+        'content',
+        'unit_id'
     ];
 
     /**
@@ -31,10 +33,20 @@ class Product extends Model
     }
 
     /**
+     * Get the unit the product belongs to
+     */
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'id');
+    }
+
+    /**
      * Get the locations that the product has through LocationProduct
      */
     public function location_products()
     {
-        return $this->belongsToMany(Location::class);
+        return $this->belongsToMany(Location::class)
+            ->withPivot('stock')
+            ->withPivot('shelf_amount');
     }
 }

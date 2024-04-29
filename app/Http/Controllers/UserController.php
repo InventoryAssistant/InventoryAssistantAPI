@@ -147,7 +147,7 @@ class UserController extends Controller
         // get user
         $user = User::where('email', $request['email'])->firstOrFail();
 
-        $token = SELF::createToken($user);
+        $token = self::createToken($user);
 
         return response()->json([
             'refresh_token' => $token['refresh_token'],
@@ -165,7 +165,7 @@ class UserController extends Controller
     {
         // refresh the users bearer token
         $user = auth('sanctum')->user();
-        $token = SELF::createToken($user, true);
+        $token = self::createToken($user, true);
 
         return response()->json([
             'refresh_token' => $token['refresh_token'],
@@ -205,7 +205,7 @@ class UserController extends Controller
         $token = $user->createToken('authToken', $abilities, $expirationsDate)->plainTextToken;
 
         if (!$refresh) {
-            $refreshToken = $user->createToken('refresh_token',  [TokenEnum::ISSUE_TOKENS->value], $expirationsDate->addDays(7))->plainTextToken;
+            $refreshToken = $user->createToken('refresh_token', [TokenEnum::ISSUE_TOKENS->value], $expirationsDate->addDays(7))->plainTextToken;
         } else {
             $refreshToken = $user->tokens()->where('name', 'refresh_token')->first()->token;
         }

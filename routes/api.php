@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,7 @@ Route::get('/user', function (Request $request) {
 
 /* Create */
 Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::CREATE->value]], function () {
+    Route::post('/units', [UnitController::class, 'store']);
     Route::post('/products', [ProductController::class, 'store']);
     Route::post('/locations', [LocationController::class, 'store']);
     Route::post('/categories', [CategoryController::class, 'store']);
@@ -22,6 +24,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::CREATE->v
 
 /* Update */
 Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::UPDATE->value]], function () {
+    Route::put('/units/{unit}', [UnitController::class, 'update']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::put('/locations/{location}', [LocationController::class, 'update']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
@@ -29,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::UPDATE->v
 
 /* Destroy */
 Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::DESTROY->value]], function () {
+    Route::delete('/units/{unit}', [UnitController::class, 'destroy']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     Route::delete('/locations/{location}', [LocationController::class, 'destroy']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
@@ -71,6 +75,8 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::ISSUE_TOK
 /* Unprotected Routes */
 
 /* Read - Get */
+Route::get('/units', [UnitController::class, 'index']);
+Route::get('/units/{unit}', [UnitController::class, 'show']);
 Route::get('/locations', [LocationController::class, 'index']);
 Route::get('/locations/{location}', [LocationController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
