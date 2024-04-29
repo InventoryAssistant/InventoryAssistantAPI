@@ -251,4 +251,16 @@ class UserController extends Controller
             ], 403);
         }
     }
+
+    /**
+     * Check if the token is valid
+     *
+     * @return JsonResponse
+     */
+    public function validateToken(): JsonResponse
+    {
+        return response()->json([
+            'message' => 'Token is valid'
+        ]);
+    }
 }

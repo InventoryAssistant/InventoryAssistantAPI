@@ -71,6 +71,10 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::ISSUE_TOK
     Route::post('/auth/refresh', [UserController::class, 'refresh']);
 });
 
+/* Validate token */
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/auth/validate', [UserController::class, 'validateToken']);
+});
 
 /* Unprotected Routes */
 
