@@ -40,9 +40,20 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): ProductResource
     {
-        $category = Product::create($request->all());
+        $product = Product::create($request->all());
 
-        return new ProductResource($category);
+        $data = array();
+
+        foreach($request['locations'] as $location){
+            $data[$location['id']] = [
+                'stock' => $location['stock'],
+                'shelf_amount' => $location['shelf_amount']
+            ];
+        }
+
+        Product::find($product->id)->location_products()->sync($data);
+
+        return new ProductResource($product);
     }
 
     /**
@@ -74,9 +85,20 @@ class ProductController extends Controller
      * @param Product $product
      * @return ProductResource
      */
-    public function update(ProductRequest $request, Product $product): ProductResource
+    public function update(ProductRequest $request, Product $product) //: ProductResource
     {
         $product->update($request->all());
+
+        $data = array();
+
+        foreach($request['locations'] as $location){
+            $data[$location['id']] = [
+                'stock' => $location['stock'],
+                'shelf_amount' => $location['shelf_amount']
+            ];
+        }
+
+        Product::find($product->id)->location_products()->sync($data);
 
         return new ProductResource($product);
     }
@@ -109,13 +131,14 @@ class ProductController extends Controller
 
         return ProductResource::collection($products);
     }
+
     /**
      * Search products by barcode.
      * @param string $barcode
      *
      * @return JsonResponse | ProductResource
      */
-    public function barcodeSearch(Int $barcode): JsonResponse | ProductResource
+    public function barcodeSearch(int $barcode): JsonResponse|ProductResource
     {
         // Check if product exists in database
         $product = Product::where('barcode', $barcode)->first();

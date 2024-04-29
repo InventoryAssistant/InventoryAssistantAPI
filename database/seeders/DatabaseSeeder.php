@@ -93,17 +93,18 @@ class DatabaseSeeder extends Seeder
         Category('Office Supplies');
         Category('Drinks');
 
-        function Product($name, $barcode, $category_id): void
+        function Product($name, $barcode, $content, $category_id): void
         {
             $Model = new \App\Models\Product();
             $Model->name = $name;
             $Model->barcode = $barcode;
             $Model->category_id = $category_id;
+            $Model->content = $content;
             $Model->save();
         }
 
-        Product('Mountain Dew Citrus Blast 50 cl', 5741000135525, 2);
-        Product('Office Kuglepen, 50 Stk./ 1 Pk', 7392265460013, 1);
+        Product('Mountain Dew Citrus Blast 50 cl', 5741000135525, 0.5, 2);
+        Product('Office Kuglepen, 50 Stk./ 1 Pk', 7392265460013, 0.5, 1);
 
         Product::find(1)->location_products()->sync([
             1 => ['stock' => 124, 'shelf_amount' => 22],
