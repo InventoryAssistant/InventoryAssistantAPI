@@ -33,6 +33,8 @@ class Location extends Model
      */
     public function location_products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)
+            ->withPivot('stock')
+            ->withPivot('shelf_amount');
     }
 }
