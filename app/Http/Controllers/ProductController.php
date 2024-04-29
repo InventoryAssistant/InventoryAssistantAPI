@@ -44,7 +44,7 @@ class ProductController extends Controller
 
         $data = array();
 
-        foreach($request['locations'] as $location){
+        foreach ($request['locations'] as $location) {
             $data[$location['id']] = [
                 'stock' => $location['stock'],
                 'shelf_amount' => $location['shelf_amount']
@@ -85,13 +85,13 @@ class ProductController extends Controller
      * @param Product $product
      * @return ProductResource
      */
-    public function update(ProductRequest $request, Product $product) //: ProductResource
+    public function update(ProductRequest $request, Product $product): ProductResource
     {
         $product->update($request->all());
 
         $data = array();
 
-        foreach($request['locations'] as $location){
+        foreach ($request['locations'] as $location) {
             $data[$location['id']] = [
                 'stock' => $location['stock'],
                 'shelf_amount' => $location['shelf_amount']
@@ -124,10 +124,11 @@ class ProductController extends Controller
      */
     public function getProductsByLocation(Location $location): AnonymousResourceCollection
     {
-
-        $products = Product::with(['location_products' => function ($query) use ($location) {
-            return $query->where('location_id', $location->id);
-        }])->get();
+        $products = Product::with([
+            'location_products' => function ($query) use ($location) {
+                return $query->where('location_id', $location->id);
+            }
+        ])->get();
 
         return ProductResource::collection($products);
     }
@@ -154,7 +155,9 @@ class ProductController extends Controller
         $storeId = 'f897964d-2890-49bb-90f6-86f12b11afe6';
 
         // Get products from Salling API
-        $response = Http::withToken($sallingToken)->get('https://api.sallinggroup.com/v2/products/' . $barcode . '?storeId=' . $storeId);
+        $response = Http::withToken($sallingToken)->get(
+            'https://api.sallinggroup.com/v2/products/' . $barcode . '?storeId=' . $storeId
+        );
         if ($response) {
             $data = $response->json();
             if (isset($data['instore'])) {
