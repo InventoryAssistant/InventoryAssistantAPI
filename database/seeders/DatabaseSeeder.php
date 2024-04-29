@@ -93,7 +93,20 @@ class DatabaseSeeder extends Seeder
         Category('Office Supplies');
         Category('Drinks');
 
-        function Product($name, $barcode, $content, $category_id): void
+        function Unit($abbreviation, $name): void
+        {
+            $Model = new \App\Models\Unit();
+            $Model->abbreviation = $abbreviation;
+            $Model->name = $name;
+            $Model->save();
+        }
+
+        Unit('g','Gram');
+        Unit('kg','Kilogram');
+        Unit('l','Liter');
+
+
+        function Product($name, $barcode, $content, $unit_id, $category_id): void
         {
             $Model = new \App\Models\Product();
             $Model->name = $name;
@@ -103,8 +116,8 @@ class DatabaseSeeder extends Seeder
             $Model->save();
         }
 
-        Product('Mountain Dew Citrus Blast 50 cl', 5741000135525, 0.5, 2);
-        Product('Office Kuglepen, 50 Stk./ 1 Pk', 7392265460013, 0.5, 1);
+        Product('Mountain Dew Citrus Blast 50 cl', 5741000135525, 0.5, 3, 2);
+        Product('Office Kuglepen, 50 Stk./ 1 Pk', 7392265460013, 0.5, 3, 1);
 
         Product::find(1)->location_products()->sync([
             1 => ['stock' => 124, 'shelf_amount' => 22],

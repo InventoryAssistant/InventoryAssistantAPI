@@ -20,7 +20,8 @@ class Product extends Model
         'name',
         'barcode',
         'category_id',
-        'content'
+        'content',
+        'unit_id'
     ];
 
     /**
@@ -29,6 +30,14 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    /**
+     * Get the unit the product belongs to
+     */
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'id');
     }
 
     /**

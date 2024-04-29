@@ -35,6 +35,7 @@ class ProductRequest extends FormRequest
             ],
             'category_id' => 'required|integer|exists:categories,id',
             'content' => 'required|numeric|max:20|decimal:0,2',
+            'unit_id' => 'nullable|integer|exists:units,id',
             'locations' => 'required|array|max:255',
             'locations.*.id' => 'required|integer|exists:locations,id',
             'locations.*.stock' => 'required|numeric|max:255',
