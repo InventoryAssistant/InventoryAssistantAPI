@@ -103,7 +103,7 @@ class DatabaseSeeder extends Seeder
 
         Unit('g','Gram');
         Unit('kg','Kilogram');
-        Unit('L','Liter');
+        Unit('l','Liter');
 
 
         function Product($name, $barcode, $content, $unit_id, $category_id): void
