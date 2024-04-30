@@ -134,6 +134,29 @@ class ProductController extends Controller
     }
 
     /**
+     * Get all products with user location.
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function getProductsByUserLocation(): AnonymousResourceCollection
+    {
+        // Get the user
+        $user = auth('sanctum')->user();
+
+        // Get the location
+        $location = $user['location_id'];
+
+        // Get the products and only their pivot data from the users location
+        $products = Product::with([
+            'location_products' => function ($query) use ($location) {
+                return $query->where('location_id', $location);
+            }
+        ])->get();
+
+        return ProductResource::collection($products);
+    }
+
+    /**
      * Search products by barcode.
      * @param string $barcode
      *
