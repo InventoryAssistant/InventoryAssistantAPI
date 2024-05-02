@@ -6,6 +6,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Location;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use \Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -119,16 +120,25 @@ class ProductController extends Controller
     /**
      * Get all products with specified location.
      *
+     * @param Request $request
      * @param Location $location
      * @return AnonymousResourceCollection
      */
-    public function getProductsByLocation(Location $location): AnonymousResourceCollection
+    public function getProductsByLocation(Request $request, Location $location): AnonymousResourceCollection
     {
+        // Request paginate field with default value of 10
+        $paginate = request('paginate', 10);
+
+        // Validate input
+        $request->validate([
+            'paginate' => 'numeric',
+        ]);
+
         $products = Product::with([
             'location_products' => function ($query) use ($location) {
                 return $query->where('location_id', $location->id);
             }
-        ])->get();
+        ])->simplePaginate($paginate);
 
         return ProductResource::collection($products);
     }
@@ -136,10 +146,19 @@ class ProductController extends Controller
     /**
      * Get all products with user location.
      *
+     * @param Request $request
      * @return AnonymousResourceCollection
      */
-    public function getProductsByUserLocation(): AnonymousResourceCollection
+    public function getProductsByUserLocation(Request $request): AnonymousResourceCollection
     {
+        // Request paginate field with default value of 10
+        $paginate = request('paginate', 10);
+
+        // Validate input
+        $request->validate([
+            'paginate' => 'numeric',
+        ]);
+
         // Get the user
         $user = auth('sanctum')->user();
 
@@ -151,7 +170,7 @@ class ProductController extends Controller
             'location_products' => function ($query) use ($location) {
                 return $query->where('location_id', $location);
             }
-        ])->get();
+        ])->simplePaginate($paginate);
 
         return ProductResource::collection($products);
     }
@@ -195,12 +214,20 @@ class ProductController extends Controller
     /**
      * Search product by name or barcode.
      *
+     * @param Request $request
      * @param string $search
-     * @param int $paginate
      * @return AnonymousResourceCollection
      */
-    public function search(string $search, int $paginate = 10): AnonymousResourceCollection
+    public function search(Request $request, string $search): AnonymousResourceCollection
     {
+        // Request paginate field with default value of 10
+        $paginate = request('paginate', 10);
+
+        // Validate input
+        $request->validate([
+            'paginate' => 'numeric',
+        ]);
+
         $product = Product::search($search)->paginate($paginate);
 
         return ProductResource::collection($product);

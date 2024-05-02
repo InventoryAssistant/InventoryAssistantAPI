@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CategoryController extends Controller
@@ -95,12 +96,20 @@ class CategoryController extends Controller
     /**
      * Searches for a category by name.
      *
+     * @param Request $request
      * @param string $name
-     * @param int $paginate
      * @return AnonymousResourceCollection
      */
-    function search(string $name, int $paginate = 10): AnonymousResourceCollection
+    public function search(Request $request, string $name): AnonymousResourceCollection
     {
+        // Request paginate field with default value of 10
+        $paginate = request('paginate', 10);
+
+        // Validate input
+        $request->validate([
+            'paginate' => 'numeric',
+        ]);
+
         $category = Category::search($name)->paginate($paginate);
 
         return CategoryResource::collection($category);

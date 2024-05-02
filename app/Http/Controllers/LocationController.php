@@ -6,6 +6,7 @@ use App\Http\Requests\LocationRequest;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class LocationController extends Controller
@@ -95,12 +96,21 @@ class LocationController extends Controller
     /**
      * Search location by name.
      *
+     * @param Request $request
      * @param string $name
-     * @param int $paginate
      * @return AnonymousResourceCollection
      */
-    public function search(string $name, int $paginate = 10): AnonymousResourceCollection
+    public function search(Request $request, string $name): AnonymousResourceCollection
     {
+
+        // Request paginate field with default value of 10
+        $paginate = request('paginate', 10);
+
+        // Validate input
+        $request->validate([
+            'paginate' => 'numeric',
+        ]);
+
         $location = Location::search($name)->paginate($paginate);
 
         return LocationResource::collection($location);
