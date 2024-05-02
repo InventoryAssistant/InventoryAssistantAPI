@@ -17,7 +17,7 @@ Route::get('/user', function (Request $request) {
 /* Read */
 Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::READ->value]], function () {
     Route::get('/products/location', [ProductController::class, 'getProductsByUserLocation']);
-    Route::post('/roles/get_roles', [RoleController::class, 'getRoles']);
+    Route::get('/roles/get_roles', [RoleController::class, 'getRoles']);
 });
 
 /* Create */
