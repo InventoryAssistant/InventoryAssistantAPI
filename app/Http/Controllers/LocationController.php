@@ -111,7 +111,7 @@ class LocationController extends Controller
             'paginate' => 'numeric',
         ]);
 
-        $location = Location::search($name)->paginate($paginate);
+        $location = Location::search($name)->simplePaginate($paginate);
 
         return LocationResource::collection($location);
     }

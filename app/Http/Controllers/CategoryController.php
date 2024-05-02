@@ -110,7 +110,7 @@ class CategoryController extends Controller
             'paginate' => 'numeric',
         ]);
 
-        $category = Category::search($name)->paginate($paginate);
+        $category = Category::search($name)->simplePaginate($paginate);
 
         return CategoryResource::collection($category);
     }

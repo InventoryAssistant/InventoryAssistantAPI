@@ -228,7 +228,7 @@ class ProductController extends Controller
             'paginate' => 'numeric',
         ]);
 
-        $product = Product::search($search)->paginate($paginate);
+        $product = Product::search($search)->simplePaginate($paginate);
 
         return ProductResource::collection($product);
     }
