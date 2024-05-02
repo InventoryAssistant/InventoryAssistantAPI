@@ -103,6 +103,10 @@ class RoleController extends Controller
      */
     public function getRoles(): JsonResponse
     {
-        return response()->json(auth()->user()->role);
+        if (auth('sanctum')->check()) {
+            return response()->json(auth()->user()->role);
+        } else {
+            return response()->json(["message" => "Unauthorized"], 401);
+        }
     }
 }
