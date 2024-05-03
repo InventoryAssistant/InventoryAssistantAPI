@@ -109,6 +109,7 @@ class DatabaseSeeder extends Seeder
             $Model->barcode = $barcode;
             $Model->category_id = $category_id;
             $Model->content = $content;
+            $Model->unit_id = $unit_id;
             $Model->save();
         }
 
