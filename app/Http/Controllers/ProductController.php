@@ -128,17 +128,21 @@ class ProductController extends Controller
     {
         // Request paginate field with default value of 10
         $paginate = request('paginate', 10);
+        $category_id = request('category_id');
 
         // Validate input
         $request->validate([
             'paginate' => 'numeric',
+            'category_id' => 'numeric|exists:categories,id'
         ]);
 
         $products = Product::with([
             'location_products' => function ($query) use ($location) {
                 return $query->where('location_id', $location->id);
             }
-        ])->simplePaginate($paginate);
+        ])->when($request->get('category_id'), function($query) use($category_id) {
+            $query->where('category_id', $category_id);
+        })->simplePaginate($paginate);
 
         return ProductResource::collection($products);
     }
@@ -153,10 +157,12 @@ class ProductController extends Controller
     {
         // Request paginate field with default value of 10
         $paginate = request('paginate', 10);
+        $category_id = request('category_id');
 
         // Validate input
         $request->validate([
             'paginate' => 'numeric',
+            'category_id' => 'numeric|exists:categories,id'
         ]);
 
         // Get the user
@@ -170,7 +176,9 @@ class ProductController extends Controller
             'location_products' => function ($query) use ($location) {
                 return $query->where('location_id', $location);
             }
-        ])->simplePaginate($paginate);
+        ])->orderBy('name')->when($request->get('category_id'), function($query) use($category_id) {
+            $query->where('category_id', $category_id);
+        })->simplePaginate($paginate);
 
         return ProductResource::collection($products);
     }

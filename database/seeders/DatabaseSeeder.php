@@ -84,8 +84,9 @@ class DatabaseSeeder extends Seeder
             $Model->save();
         }
 
-        Category('Office Supplies');
-        Category('Drinks');
+        Category('Kontorartikler');
+        Category('Drikkevare');
+        Category('Slik');
 
         function Unit($abbreviation, $name): void
         {
@@ -98,6 +99,7 @@ class DatabaseSeeder extends Seeder
         Unit('g','Gram');
         Unit('kg','Kilogram');
         Unit('l','Liter');
+        Unit('stk','styk');
 
 
         function Product($name, $barcode, $content, $unit_id, $category_id): void
@@ -110,8 +112,13 @@ class DatabaseSeeder extends Seeder
             $Model->save();
         }
 
-        Product('Mountain Dew Citrus Blast 50 cl', 5741000135525, 0.5, 3, 2);
-        Product('Office Kuglepen, 50 Stk./ 1 Pk', 7392265460013, 0.5, 3, 1);
+        Product('Mountain Dew Citrus Blast', 5741000135525, 0.5, 3, 2);
+        Product('Office Kuglepen', 7392265460013, 0.5, 4, 1);
+        Product('Mountain Dew Citrus Blast', 5741000145500, 1.5, 3, 2);
+        Product('Pepsi', 5741000124109, 1.5, 3, 2);
+        Product('Honning Snitter', 5709364674777, 144, 1, 3);
+        Product('Hit Mix', 577454062231, 375, 1, 3);
+        Product('Chokolade Stænger', 5712873288816, 200, 1, 3);
 
         Product::find(1)->location_products()->sync([
             1 => ['stock' => 124, 'shelf_amount' => 22],
@@ -120,6 +127,26 @@ class DatabaseSeeder extends Seeder
         Product::find(2)->location_products()->sync([
             1 => ['stock' => 4, 'shelf_amount' => 2],
             2 => ['stock' => 0, 'shelf_amount' => 1]
+        ]);
+        Product::find(3)->location_products()->sync([
+            1 => ['stock' => 2, 'shelf_amount' => 22],
+            2 => ['stock' => 5, 'shelf_amount' => 32]
+        ]);
+        Product::find(4)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 22],
+            2 => ['stock' => 4, 'shelf_amount' => 14]
+        ]);
+        Product::find(5)->location_products()->sync([
+            1 => ['stock' => 12, 'shelf_amount' => 242],
+            2 => ['stock' => 41, 'shelf_amount' => 4]
+        ]);
+        Product::find(6)->location_products()->sync([
+            1 => ['stock' => 21, 'shelf_amount' => 2],
+            2 => ['stock' => 54, 'shelf_amount' => 114]
+        ]);
+        Product::find(7)->location_products()->sync([
+            1 => ['stock' => 12, 'shelf_amount' => 23],
+            2 => ['stock' => 43, 'shelf_amount' => 11]
         ]);
     }
 }
