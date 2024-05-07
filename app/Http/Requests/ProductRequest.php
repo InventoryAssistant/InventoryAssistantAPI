@@ -34,12 +34,12 @@ class ProductRequest extends FormRequest
                 'unique' => Rule::unique('products', 'barcode')->ignore(request('product') , 'barcode')
             ],
             'category_id' => 'required|integer|exists:categories,id',
-            'content' => 'required|numeric|max:1024|decimal:0,2',
+            'content' => 'required|numeric|max:65536|decimal:0,2',
             'unit_id' => 'nullable|integer|exists:units,id',
-            'locations' => 'required|array|max:255',
+            'locations' => 'required|array|max:65536',
             'locations.*.id' => 'required|integer|exists:locations,id',
-            'locations.*.stock' => 'required|numeric|max:255',
-            'locations.*.shelf_amount' => 'required|numeric|max:255',
+            'locations.*.stock' => 'required|numeric|max:65536',
+            'locations.*.shelf_amount' => 'required|numeric|max:65536',
         ];
     }
 
@@ -62,20 +62,20 @@ class ProductRequest extends FormRequest
             'category_id.exists' => 'Please enter an existing id for category id',
             'content.required' => 'Please enter a content size',
             'content.numeric' => 'Please enter a number for content size',
-            'content.max' => 'Please limit content size to 1024 characters',
+            'content.max' => 'Please limit content size to 65536',
             'content.decimal' => 'Please limit content to between 0 and 2 decimals',
             'locations.required' => 'Please enter locations',
             'locations.array' => 'Please enter locations as an array',
-            'locations.max' => 'Please limit locations to 255 characters',
+            'locations.max' => 'Please limit locations to 65536',
             'locations.*.id.required' => 'Please enter locations id',
             'locations.*.id.integer' => 'Please enter locations id as an integer',
             'locations.*.id.exists' => 'Please enter an locations id that exists',
             'locations.*.stock.required' => 'Please enter a stock value',
             'locations.*.stock.numeric' => 'Please enter a number for stock',
-            'locations.*.stock.max' => 'Please limit stock to 255 characters',
+            'locations.*.stock.max' => 'Please limit stock to 65536',
             'locations.*.shelf_amount.required' => 'Please enter a shelf_amount value',
             'locations.*.shelf_amount.numeric' => 'Please enter a number for shelf_amount',
-            'locations.*.shelf_amount.max' => 'Please limit shelf_amount to 255 characters',
+            'locations.*.shelf_amount.max' => 'Please limit shelf_amount to 65536',
         ];
     }
 }
