@@ -120,6 +120,15 @@ class DatabaseSeeder extends Seeder
         Product('Honning Snitter', 5709364674777, 144, 1, 3);
         Product('Hit Mix', 577454062231, 375, 1, 3);
         Product('Chokolade Stænger', 5712873288816, 200, 1, 3);
+        Product('Snøfler Træstammer', 5709364571274, 100, 1, 3);
+        Product('Coca Cola', 57095882, 0.25, 3, 2);
+        Product('Coca Cola', 57113098, 1, 3, 2);
+        Product('Coca Cola', 57013596, 1.25, 3, 2);
+        Product('Coca Cola', 57045795, 1.5, 3, 2);
+        Product('Coca Cola', 57089058, 2, 3, 2);
+        Product('Pringles Texas BBQ Sauce', 5053990161966, 165, 1, 3);
+        Product('Pringles Paprika', 5053990161669, 165, 1, 3);
+
 
         Product::find(1)->location_products()->sync([
             1 => ['stock' => 124, 'shelf_amount' => 22],
@@ -148,6 +157,38 @@ class DatabaseSeeder extends Seeder
         Product::find(7)->location_products()->sync([
             1 => ['stock' => 12, 'shelf_amount' => 23],
             2 => ['stock' => 43, 'shelf_amount' => 11]
+        ]);
+        Product::find(8)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(9)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(10)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(11)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(12)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(13)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(14)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(15)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
         ]);
     }
 }
