@@ -34,7 +34,7 @@ class ProductRequest extends FormRequest
                 'unique' => Rule::unique('products', 'barcode')->ignore(request('product') , 'barcode')
             ],
             'category_id' => 'required|integer|exists:categories,id',
-            'content' => 'required|numeric|max:20|decimal:0,2',
+            'content' => 'required|numeric|max:1024|decimal:0,2',
             'unit_id' => 'nullable|integer|exists:units,id',
             'locations' => 'required|array|max:255',
             'locations.*.id' => 'required|integer|exists:locations,id',
@@ -62,7 +62,7 @@ class ProductRequest extends FormRequest
             'category_id.exists' => 'Please enter an existing id for category id',
             'content.required' => 'Please enter a content size',
             'content.numeric' => 'Please enter a number for content size',
-            'content.max' => 'Please limit content size to 20 characters',
+            'content.max' => 'Please limit content size to 1024 characters',
             'content.decimal' => 'Please limit content to between 0 and 2 decimals',
             'locations.required' => 'Please enter locations',
             'locations.array' => 'Please enter locations as an array',
