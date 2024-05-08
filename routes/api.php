@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::UPDATE->v
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::put('/locations/{location}', [LocationController::class, 'update']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
+    Route::put('/user/{user}', [UserController::class, 'updateCurrentUser']);
 });
 
 /* Destroy */
