@@ -42,9 +42,9 @@ class DatabaseSeeder extends Seeder
         Role("moderator");
         Role("admin");
 
-        Role::find(1)->role_abilities()->sync([1, 2]);
-        Role::find(2)->role_abilities()->sync([1, 2, 3, 4, 5, 6]);
-        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        Role::find(1)->role_abilities()->sync([2, 3]);
+        Role::find(2)->role_abilities()->sync([1, 2, 3, 4]);
+        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7, 8]);
 
         function Location($address): void
         {
@@ -96,10 +96,10 @@ class DatabaseSeeder extends Seeder
             $Model->save();
         }
 
-        Unit('g','Gram');
-        Unit('kg','Kilogram');
-        Unit('l','Liter');
-        Unit('stk','styk');
+        Unit('g', 'Gram');
+        Unit('kg', 'Kilogram');
+        Unit('l', 'Liter');
+        Unit('stk', 'styk');
 
 
         function Product($name, $barcode, $content, $unit_id, $category_id): void
