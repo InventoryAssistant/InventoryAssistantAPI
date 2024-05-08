@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Location;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -89,9 +90,9 @@ class UserController extends Controller
      * Update the current user
      *
      * @param UserRequest $request
-     * @return UserResource
+     * @return Jsonresponse|UserResource
      */
-    public function updateCurrentUser(UserRequest $request, User $user): UserResource
+    public function updateCurrentUser(UserRequest $request, User $user): JsonResponse|UserResource
     {
         if ($user->id !== auth('sanctum')->user()->id) {
             return response()->json([
