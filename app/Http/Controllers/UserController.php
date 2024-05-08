@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -85,12 +86,30 @@ class UserController extends Controller
     }
 
     /**
+     * Update the current user
+     *
+     * @param UserRequest $request
+     * @return UserResource
+     */
+    public function updateCurrentUser(UserRequest $request, User $user): UserResource
+    {
+        if ($user->id !== auth('sanctum')->user()->id) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+        $user->update($request->all());
+
+        return new UserResource($user);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param User $user
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy(User $user): \Illuminate\Http\JsonResponse
+    public function destroy(User $user): JsonResponse
     {
         $user->delete();
 
@@ -101,9 +120,9 @@ class UserController extends Controller
      * Get all users with specified location
      *
      * @param Location $location
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getUsersByLocation(Location $location): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getUsersByLocation(Location $location): AnonymousResourceCollection
     {
         return UserResource::collection(User::all()->where('location_id', $location->id));
     }
