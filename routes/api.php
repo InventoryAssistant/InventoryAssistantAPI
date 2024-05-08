@@ -35,7 +35,6 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::UPDATE->v
     Route::put('/locations/{location}', [LocationController::class, 'update']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::put('/user/{user}', [UserController::class, 'updateCurrentUser']);
-    // TODO make upde logged in user only
 });
 
 /* Destroy */
