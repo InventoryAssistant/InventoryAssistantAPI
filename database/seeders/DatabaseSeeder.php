@@ -128,6 +128,9 @@ class DatabaseSeeder extends Seeder
         Product('Coca Cola', 57089058, 2, 3, 2);
         Product('Pringles Texas BBQ Sauce', 5053990161966, 165, 1, 3);
         Product('Pringles Paprika', 5053990161669, 165, 1, 3);
+        Product('Mini Cream Cookies Assorted', 5711070707533, 230, 1, 2);
+        Product('Crispy Munchies', 5712873610662, 100, 1, 2);
+        Product('Chocolate Chips', 5712873839209, 225, 1, 2);
 
 
         Product::find(1)->location_products()->sync([
@@ -187,6 +190,18 @@ class DatabaseSeeder extends Seeder
             2 => ['stock' => 2, 'shelf_amount' => 2]
         ]);
         Product::find(15)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(16)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(17)->location_products()->sync([
+            1 => ['stock' => 1, 'shelf_amount' => 1],
+            2 => ['stock' => 2, 'shelf_amount' => 2]
+        ]);
+        Product::find(18)->location_products()->sync([
             1 => ['stock' => 1, 'shelf_amount' => 1],
             2 => ['stock' => 2, 'shelf_amount' => 2]
         ]);
