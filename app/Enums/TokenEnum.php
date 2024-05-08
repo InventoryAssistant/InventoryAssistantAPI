@@ -4,8 +4,6 @@ namespace App\Enums;
 
 enum TokenEnum: string
 {
-    case CHANGE_EMAIL = 'change-email';
-    case PASSWORD_RESET = 'password-reset';
     case CREATE = 'create';
     case READ = 'read';
     case UPDATE = 'update';
