@@ -34,7 +34,6 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::UPDATE->v
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::put('/locations/{location}', [LocationController::class, 'update']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
-    Route::put('/user/{user}', [UserController::class, 'updateCurrentUser']);
 });
 
 /* Destroy */
@@ -43,6 +42,11 @@ Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::DESTROY->
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     Route::delete('/locations/{location}', [LocationController::class, 'destroy']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+});
+
+/* Update Profile */
+Route::group(['middleware' => ['auth:sanctum', 'ability:' . TokenEnum::UPDATE_PROFILE->value]], function () {
+    Route::put('/user/{user}', [UserController::class, 'updateCurrentUser']);
 });
 
 /* CRUD Roles & Users */
