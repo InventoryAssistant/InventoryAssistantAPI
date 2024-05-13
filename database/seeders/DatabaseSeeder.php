@@ -42,9 +42,9 @@ class DatabaseSeeder extends Seeder
         Role("moderator");
         Role("admin");
 
-        Role::find(1)->role_abilities()->sync([2, 3]);
-        Role::find(2)->role_abilities()->sync([1, 2, 3, 4]);
-        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7, 8]);
+        Role::find(1)->role_abilities()->sync([2, 10]);
+        Role::find(2)->role_abilities()->sync([1, 2, 3, 4, 10]);
+        Role::find(3)->role_abilities()->sync([1, 2, 3, 4, 5, 6, 7, 8, 10]);
 
         function Location($address): void
         {

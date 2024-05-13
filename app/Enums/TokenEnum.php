@@ -13,4 +13,5 @@ enum TokenEnum: string
     case UPDATE_ROLES_AND_USERS = 'update-roles-and-users';
     case DESTROY_ROLES_AND_USERS = 'destroy-roles-and-users';
     case ISSUE_TOKENS = 'issue-tokens';
+    case UPDATE_PROFILE = 'update-profile';
 }
