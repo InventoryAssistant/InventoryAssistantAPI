@@ -140,7 +140,7 @@ class ProductController extends Controller
             'location_products' => function ($query) use ($location) {
                 return $query->where('location_id', $location->id);
             }
-        ])->when($request->get('category_id'), function($query) use($category_id) {
+        ])->when($request->get('category_id'), function ($query) use ($category_id) {
             $query->where('category_id', $category_id);
         })->simplePaginate($paginate);
 
@@ -176,7 +176,7 @@ class ProductController extends Controller
             'location_products' => function ($query) use ($location) {
                 return $query->where('location_id', $location);
             }
-        ])->orderBy('name')->when($request->get('category_id'), function($query) use($category_id) {
+        ])->orderBy('name')->when($request->get('category_id'), function ($query) use ($category_id) {
             $query->where('category_id', $category_id);
         })->simplePaginate($paginate);
 
