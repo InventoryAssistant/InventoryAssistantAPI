@@ -240,15 +240,4 @@ class ProductController extends Controller
 
         return ProductResource::collection($product);
     }
-
-    /**
-     * Get the unit of a product.
-     *
-     * @param Product $product
-     * @return JsonResponse
-     */
-    public function getUnit(Product $product): JsonResponse
-    {
-        return response()->json($product->unit);
-    }
 }
