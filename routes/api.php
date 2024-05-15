@@ -99,6 +99,7 @@ Route::get('/categories/{category}', [CategoryController::class, 'show']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/products/location/{location}', [ProductController::class, 'getProductsByLocation']);
+Route::get('/products/{product}/unit', [ProductController::class, 'getUnit']);
 
 /* Search */
 Route::get('/products/barcode/{barcode}', [ProductController::class, 'barcodeSearch']);
