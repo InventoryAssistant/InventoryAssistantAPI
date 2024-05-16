@@ -99,7 +99,7 @@ class ProductController extends Controller
             ];
         }
 
-        Product::find($product->id)->location_products()->sync($data);
+        Product::find($product->id)->location_products()->sync($data, false);
 
         return new ProductResource($product);
     }
