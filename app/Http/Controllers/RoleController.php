@@ -78,7 +78,7 @@ class RoleController extends Controller
     {
         $role->update($request->all());
 
-        Role::find($role->id)->role_abilities()->sync($request['abilities']);
+        Role::find($role->id)->role_abilities()->sync($request['abilities'], false);
 
         return new RoleResource($role);
     }
