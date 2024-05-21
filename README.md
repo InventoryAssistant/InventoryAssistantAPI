@@ -29,7 +29,7 @@ Generate application key
 Next up is setting up the search engine.<br>
 
 ### Search engine
-The search engine used is Meilisearch in combinatiion with laravel Scout.<br>
+The search engine used is Meilisearch in combination with Laravel Scout.<br>
 You need to start with installing Laravel scout, Laravel has a guide [here](https://laravel.com/docs/11.x/scout).<br>
 When installed you need to get Meilisearch up and running.<br>
 To do this go [here](https://www.meilisearch.com/docs/learn/getting_started/installation) Laravel Sail can be configured to have Meilisearch, read more [here](https://laravel.com/docs/11.x/sail#meilisearch).<br>
