@@ -1,66 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Inventory Assistant API
+This is the API part of Inventory Assistant.<br>
+It handles all of the API calls and the connection to the database.<br>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Getting started
+### Installation
+To begin with we need to have Composer, PHP and a MariaDB server installed. <br>
+For laravel 11 you need to have PHP 8.2 - 8.3 installed. PHP can be installed together with XAMPP [here](https://www.apachefriends.org/download.html) and select the appropiate version.<br>
+If you choose to install with XAMP it includes an Apache server and MariaDB server, which will be used by the API.<br>
+To install Composer go to their download page [here](https://getcomposer.org/download/) and install the latest version.<br>
 
-## About Laravel
+Now we have everything to begin.<br>
+Now lets clone the repository
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    git clone https://github.com/InventoryAssistant/InventoryAssistantAPI.git
+Navigate to the new folder
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    cd InventoryAssistantAPI
+Install the dependencies
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    composer install
+To get .env file copy the .env.example file
 
-## Learning Laravel
+    cp .env.example .env
+Generate application key
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    php artisan key:generate
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Next up is setting up the search engine.<br>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Search engine
+The search engine used is Meilisearch in combination with Laravel Scout.<br>
+You need to start with installing Laravel scout, Laravel has a guide [here](https://laravel.com/docs/11.x/scout).<br>
+When installed you need to get Meilisearch up and running.<br>
+To do this go [here](https://www.meilisearch.com/docs/learn/getting_started/installation) Laravel Sail can be configured to have Meilisearch, read more [here](https://laravel.com/docs/11.x/sail#meilisearch).<br>
+Meilisearch also have a Laravel specific guide [here](https://www.meilisearch.com/docs/learn/cookbooks/laravel_scout).
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Now that we have the search engine set up, we can go to the next step which is migrations.
 
-### Premium Partners
+### Migration
+Now that we have our project configured we should be ready to migrate our models.<br>
+To do so ensure the MariaDB is running and have the same IP as in the .env file.<br>
+If the IPs don't match change the .env file.<br>
+Before we can run our migrations we also need to be sure that we are connecting to the correct database server.<br>
+To do this go to the .env file and change the following lines:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    DB_CONNECTION=sqlite
+    # DB_HOST=127.0.0.1
+    # DB_PORT=3306
+    # DB_DATABASE=laravel
+    # DB_USERNAME=root
+    # DB_PASSWORD=
+`DB_CONNECTION` should be changed to mysql.<br>
+Make sure that they are uncommented and have the correct values. <br>
 
-## Contributing
+To run the migrations and have the database seeded use:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    php artisan migrate --seed
+If you want to refresh the database use:
 
-## Code of Conduct
+    php artisan migrate:fresh --seed
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Next step is serving the API.
 
-## Security Vulnerabilities
+### Serve the API
+The project is now ready to be served. <br>
+This can be done multiple ways. Either by using `php artisan` or using a webserver. <br>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+If you choose to use `php artisan` use the following command:
 
-## License
+    php artisan serve
+Optionally you could add a `--host` to specify the ip it should host on. You could also add `--port` to specify the post it should use.<br>
+These commands and more can be found with:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    php artisan serve --help
+
+
+If you choose to use a webserver it should have the web root to be the index inside the `public` directory.
