@@ -24,6 +24,7 @@ class UserResource extends JsonResource
             'location_id' => $this->location->id,
             'role' => $this->role->name,
             'role_id' => $this->role->id,
+            'first_login' => $this->updated_at->eq($this->created_at),
         ];
     }
 }
