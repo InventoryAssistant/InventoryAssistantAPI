@@ -23,15 +23,11 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
-                'max:255',
-                'unique' => Rule::unique('products', 'name')->ignore(request('product') , 'name')
-            ],
+            'name' => 'required|max:255',
             'barcode' => [
                 'required',
                 'integer',
-                'unique' => Rule::unique('products', 'barcode')->ignore(request('product') , 'barcode')
+                'unique' => Rule::unique('products', 'barcode')->ignore(request('product'), 'barcode')
             ],
             'category_id' => 'required|integer|exists:categories,id',
             'content' => 'required|numeric|max:65536|decimal:0,2',
