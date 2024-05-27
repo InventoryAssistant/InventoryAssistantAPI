@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('barcode');
-            $table->foreignId("category_id")->constrained("categories");
+            $table->foreignId("category_id")->nullable()->constrained("categories")->nullOnDelete();
             $table->timestamps();
         });
     }

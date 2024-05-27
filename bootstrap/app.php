@@ -46,15 +46,4 @@ return Application::configure(basePath: dirname(__DIR__))
                 'message' => 'Unauthorized'
             ],403);
         });
-
-        /* Query Exception */
-        $exceptions->renderable(function (QueryException $e) {
-            // If the data already exists return custom error message
-            if($e->getCode() === "23000"){
-                return response(['error' => 'Data already exists.'], 400);
-            }
-
-            // else return laravel error message
-            return response()->json($e);
-        });
     })->create();
